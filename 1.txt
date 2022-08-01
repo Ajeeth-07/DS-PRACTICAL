@@ -1,0 +1,138 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+class set
+{             // creating the set class
+    int *arr; // reference of array where the set elements to be stored
+    int n;
+
+public:
+    set()
+    {
+    }
+    void cset()
+    { // function to insert elements in the set through user
+        int a;
+        cout << "Enter the size of the array : ";
+        cin >> a;
+        this->n = a;
+        arr = new int(n);
+        cout << "Enter elements of array : ";
+        for (int i = 0; i < n; i++)
+        {
+            cin >> arr[i];
+        }
+    }
+    void unique()
+    { // function to remove duplicate elements from the set
+
+        int m = n;
+        for (int i = 0; i < n; i++)
+        { // checking elements one by one in the array by making one element
+            for (int j = i + 1; j < n;)
+            { // as flag , and update the array if found any duplicate
+                if (arr[i] == arr[j])
+                {
+                    for (int k = j; k < n - 1; k++)
+                    {
+                        arr[k] = arr[k + 1];
+                    }
+                    n--;
+                }
+                else
+                {
+                    j++;
+                }
+            }
+        }
+    }
+    void output()
+    { // function to print the elements of set along with it’s cardinality
+        cout << "Cardinality is : " << n << endl;
+        cout << "set is : "
+             << "{ ";
+        for (int i = 0; i < n; i++)
+        {
+            cout << arr[i] << ",";
+        }
+        cout << "}" << endl;
+    }
+    bool ismemeber()
+    { // function to check whether a user input element is present in
+        // set or not
+        cout << "Enter the value to be searched for : ";
+        int key;
+        cin >> key;
+        for (int i = 0; i < n; i++)
+        { // using linear search to find element
+            if (arr[i] == key)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    void powerset()
+    { // to print the powerset of the given set using Bit Manipulation
+        int k = pow(2, n);
+        cout << "Powerset of the given set is : " << endl;
+        cout << "{";
+        for (int i = 0; i < k; i++)
+        {
+            int x = i;
+            int j = 0;
+            cout << "{";
+            while (x)
+            {
+                if (x & 1)
+                {
+                    cout << arr[j] << ",";
+                }
+                j++;
+                x = x >> 1;
+            }
+            cout << "},";
+        }
+        cout << "}" << endl;
+    }
+};
+int main()
+{
+    set a;
+    a.cset();
+    a.unique();
+    a.output();
+    bool c = true;
+    while (c)
+    { // menu driven approach to make the prgrm interactable with user
+
+        cout << "Enter the operation to be performed : " << endl;
+        cout << "1. To check element in a set " << endl;
+        cout << "2. To print the power set of a set " << endl;
+        int e;
+        cin >> e;
+        switch (e)
+        {
+        case 1:
+            if (a.ismemeber())
+            {
+                cout << "Element is present" << endl;
+            }
+            else
+            {
+                cout << "Element is absent" << endl;
+            }
+            break;
+        case 2:
+            a.powerset();
+            break;
+        }
+        cout << "Do yo want to continue: " << endl;
+        cin >> e;
+        if (e == false)
+        {
+            break;
+        }
+    }
+    return 0;
+}
