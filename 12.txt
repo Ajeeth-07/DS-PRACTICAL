@@ -1,0 +1,70 @@
+#include <iostream>
+using namespace std;
+class pase
+{
+    int n;
+    int c;
+    int *arr;
+    int sum;
+
+public:
+    pase()
+    {
+        cout << "enter the no. of terms in function" << endl;
+        cin >> n;
+        cout << "enter the sum of terms , (<=0 sum < 10)" << endl;
+        cin >> c;
+
+        arr = new int[n];
+        for (int i = 0; i < n; i++)
+        {
+            arr[i] = 0;
+        }
+
+        sum = c;
+        cout << "Possible solutions are : " << endl;
+        for (int i = 0; i < n; i++)
+        {
+            cout << "X" << i + 1 << " ";
+        }
+        cout << " = sum" << endl;
+    }
+
+    void print(int *arr, int n, int c, int index)
+    {
+        // base case
+        if (index == n - 1)
+        {
+            arr[index] = c;
+            // since the array is completely fulled so printing it's elements
+            for (int i = 0; i < n; i++)
+            {
+                cout << arr[i] << " ";
+            }
+            cout << " = " << sum << endl;
+            return;
+        }
+        // now checking for next possible values at that position
+        for (int i = 0; i <= c; i++)
+        {
+            arr[index] = i;
+            // here calling the function recursively for next c-1 positions
+            print(arr, n, c - i, index + 1);
+        }
+    }
+    void solution()
+    {
+        print(arr, n, c, 0);
+    }
+};
+int main()
+{
+    bool flag = true;
+    while (flag)
+    {
+        pase a;
+        a.solution();
+        cout << "Do you want to continue?" << endl;
+        cin >> flag;
+    }
+}

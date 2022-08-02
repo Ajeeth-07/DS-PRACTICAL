@@ -1,0 +1,46 @@
+// program to store a function and then evaluate the polynomial f(x)=4x^3+2x+3
+#include <iostream>
+#include <cmath>
+using namespace std;
+class polynomial
+{
+    int degree;
+    int *arr; // array used to store the coefficients in the polynomial
+public:
+    polynomial()
+    {
+        cout << "Enter the degree of the polynomial : ";
+        int n;
+        cin >> n;
+        degree = n;
+        arr = new int[degree + 1];
+        cout << "Enter the coefficients of the polynomial : " << endl; // stored as per index in the array
+        for (int i = 0; i < degree + 1; i++)
+        {
+            int coeff;
+            cout << "Enter the coeff for x^" << degree - i << " : " << endl;
+            cin >> coeff;
+            arr[i] = coeff;
+        }
+    }
+    int func(int x)
+    { // function to find the value of function
+        int sum = 0;
+        for (int i = 0; i < (degree + 1); i++)
+        {
+            sum += arr[i] * (pow(x, (degree - i)));
+        }
+
+        return sum;
+    }
+};
+int main()
+{
+    polynomial p;
+    cout << "enter for which the value of function is to be find : " << endl;
+    int n;
+    cin >> n;
+    int ans = p.func(n);
+    cout << "The value of function when x is " << n << " is : ";
+    cout << ans << endl;
+}

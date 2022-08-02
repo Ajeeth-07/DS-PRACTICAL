@@ -1,0 +1,300 @@
+// to check whether a graph has euler circuit / euler path / nothing in directed and undirected graph
+#include<iostream>
+using namespace std;
+
+class graph{
+    int n;
+    int **adjm;
+
+    public:
+    void graph_direc(){
+         cout<<"Enter the no of verteces in graph "<<endl;
+        cin>>n;
+        adjm=new int*[n];
+        for(int i=0;i<n;i++){
+          adjm[i]=new int[n];
+        }
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                adjm[i][j]=0;
+            }
+        }
+        cout<<"Enter the edges for graph"<<endl;
+        bool flag=true;
+        int cnt=0;
+        while(flag){
+               int a,b;
+            cin>>a>>b;
+            if(a<0 || a>n || b<0 || b>n){
+            cout<<"Enter the valid edges"<<endl;
+           }
+
+           else
+           
+            if(a==0 || b==0){
+                cout<<"Graph numbers should starts with 1 onwards"<<endl;
+            }
+            else if((adjm[a-1][b-1]==0)){
+                adjm[a-1][b-1]=1;
+                cnt++;
+            }
+            else{
+                cout<<"edge for these vertices already exixts";
+            }
+            cout<<"Do you want to enter more edge 1/0"<<endl;
+            cin>>flag;
+            if(cnt==(n*n)){
+                cout<<"You cannot create more edges now "<<endl;
+                break;
+            }
+        }
+    }
+    void  graph_undi(){
+        cout<<"Enter the no of vertices in the graph : ";
+        cin>>n;
+        adjm=new int*[n];
+        for(int i=0;i<n;i++){
+            adjm[i]=new int[n];
+        }
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                adjm[i][j]=0;
+            }
+        }
+        cout<<"Enter the edges in the vertices "<<endl;
+        bool flag=true;
+        int cnt=0;
+        while(flag){
+           int a,b;
+           cin>>a>>b;
+           if(a<0 || a>n || b<0 || b>n){
+            cout<<"Enter the valid edges"<<endl;
+           }
+
+           else
+           if(a==0 || b==0){
+                cout<<"Graph numbers should starts with 1 onwards"<<endl;
+            }
+           else if(a==b){
+               cout<<"in a simple undirected graph self edges are not allowed "<<endl;
+                cout<<"Do you want to enter more edges 1/0"<<endl;
+                cin>>flag;
+           }
+    
+           else{
+               if(adjm[a-1][b-1]==0 && adjm[b-1][a-1]==0){
+               adjm[a-1][b-1]=1;
+               adjm[b-1][a-1]=1;
+               cnt++;
+               }
+               else{
+                cout<<"Edge for these vertices already exists"<<endl;
+               }
+               cout<<"Do you want to enter more edges 1/0"<<endl;
+               cin>>flag;
+               
+           }
+
+           if(cnt==(n*(n-1))/2){
+               cout<<"You cannot add more edges now "<<endl;
+               break;
+           }
+
+        }
+
+    }
+
+    // now to check whether gaph has euler circuit or not - it must have all vertex with even degrees for undirected and for directed no of in and out degree should be same
+    bool euler_undi(){
+        for(int i=0;i<n;i++){
+            int deg=0;
+            for(int j=0;j<n;j++){
+                deg+=adjm[i][j];
+            }
+            if(deg%2!=0){
+                return false;
+            }
+        }
+        return true;
+    }
+    bool euler_dire(){
+        for(int i=0;i<n;i++){
+            int indeg=0;
+            for(int j=0;j<n;j++){
+                indeg+=adjm[j][i];
+            }
+            int outdeg=0;
+            for(int j=0;j<n;j++){
+                outdeg+=adjm[i][j];
+            }
+
+            if(indeg!=outdeg){
+                return false;
+            }
+            // if((indeg+outdeg)%2!=0){
+            //     return false;
+            // }
+        }
+        return true;
+    }
+
+    bool euler_path_undi(){
+        int cnt=0;
+        for(int i=0;i<n;i++){
+            int deg=0;
+            for(int j=0;j<n;j++){
+                deg+=adjm[i][j];
+            }
+            if(deg%2!=0){
+                cnt++;
+            }
+        }
+        if(cnt==2 || cnt==0){
+            return true;
+        }
+        else{
+            return false;
+        }
+
+    }
+    bool euler_path_di(graph g){
+        int cnt=0;
+         for(int i=0;i<n;i++){
+            int indeg=0;
+            for(int j=0;j<n;j++){
+                indeg+=adjm[j][i];
+            }
+            int outdeg=0;
+            for(int j=0;j<n;j++){
+                outdeg+=adjm[i][j];
+            }
+
+            if((indeg + outdeg)%2!=0){
+                cnt++;
+            }
+        }
+        if(cnt==2 || cnt==0){
+         if(cnt==0 &&  (!g.euler_dire())){
+             return false;
+         }
+         return true;
+        }
+        else{
+            return false;
+        }
+    } 
+
+    void print(){
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                cout<<adjm[i][j]<<" ";
+            }
+            cout<<endl;
+        }
+    }
+
+};
+int main(){
+    graph g;
+    bool flag=true;
+    while(flag){
+        cout<<"Enter 1. for Directed Graph  2. For Undirected graph"<<endl;
+        int n;
+        cin>>n;
+        if(n==1){
+           bool flag2=true;
+           g.graph_direc();
+           while(flag2){
+               cout<<"Enter 1. To check whether graph is Euler circuit or not"<<endl;
+               cout<<"Enter 2. to check whether graph is Euler path or not"<<endl;
+               int c;
+               cin>>c;
+               bool mark=false;
+               if(c==1){
+                 if(g.euler_dire()){
+                     cout<<"Euler circuit present in graph "<<endl;
+                     mark=true;
+                     
+                 }
+                 else{
+                     cout<<"No Euler circuit in graph"<<endl;
+                 }
+               }
+               else if(c==2){
+                  if(g.euler_path_di(g)){
+                      cout<<"Euler path present in graph"<<endl;
+                  }
+                  else{
+                       cout<<"Euler path not present in graph"<<endl;
+                  }
+                  
+               }
+               else{
+                   cout<<"Wrong choice"<<endl;
+               }
+               cout<<"Do yo want to continue on this graph 1/0"<<endl;
+              
+               cin>>flag2;
+                if(mark && flag2){
+                cout<<"Since the graph has circuit so it will always have euler path no need to check "<<endl;
+                break;
+               }
+           }
+        }
+        else if(n==2){
+            bool flag2=true;
+           g.graph_undi();
+           while(flag2){
+               cout<<"Enter 1. To check whether graph is Euler circuit or not"<<endl;
+               cout<<"Enter 2. to check whether graph is Euler path or not"<<endl;
+               int c;
+               cin>>c;
+               bool mark=false;
+               if(c==1){
+                 if(g.euler_undi()){
+                     cout<<"Euler circuit present in graph "<<endl;
+                     mark=true;
+                     
+                 }
+                 else{
+                     cout<<"No Euler circuit in graph"<<endl;
+                 }
+               }
+               else if(c==2){
+                  if(g.euler_path_undi()){
+                      cout<<"Euler path present in graph"<<endl;
+                  }
+                  else{
+                    cout<<"Euler path not present in graph"<<endl;
+                  }
+               }
+               else{
+                   cout<<"Wrong choice"<<endl;
+               }
+               cout<<"Do yo want to continue on this graph 1/0"<<endl;
+               cin>>flag2;
+                if(mark && flag2){
+                cout<<"Since the graph has circuit so it will always have euler path no need to check "<<endl;
+                break;
+               }
+           }
+            
+
+        }
+        else{
+            cout<<"You have entered wrong choice "<<endl;
+        }
+        cout<<"Do you want to continue "<<endl;
+        cin>>flag;
+       
+    }
+    // g.graphi();
+    // g.print(); 
+    // cout<<g.euler_undi()<<endl;
+    // // cout<<g.euler_path_undi()<<endl;
+    // g.graph_direc();
+    // g.print();
+    // cout<<g.euler_dire()<<endl;
+    // cout<<g.euler_path_di(g)<<endl;
+
+}

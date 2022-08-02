@@ -1,0 +1,248 @@
+// to find the no of possible paths of n length between two vertices
+#include<iostream>
+using namespace std;
+class graph{
+    int n;
+    int **adjm;
+    public:
+    graph(){
+
+    }
+
+    void graph_direc(){
+         cout<<"Enter the no of verteces in graph "<<endl;
+        cin>>n;
+        adjm=new int*[n];
+        for(int i=0;i<n;i++){
+          adjm[i]=new int[n];
+        }
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                adjm[i][j]=0;
+            }
+        }
+        cout<<"Enter the edges for graph"<<endl;
+        bool flag=true;
+        int cnt=0;
+        while(flag){
+            int a,b;
+            cin>>a>>b;
+            if(a<0 || a>n || b<0 || b>n){
+            cout<<"Enter the valid edges"<<endl;
+           }
+
+           else
+            if(a==b){
+                cout<<"For these directed graph loops not allowed as it would cause abmiguity"<<endl;
+            }
+            else if(a==0 || b==0){
+                cout<<"Graph numbers should starts with 1 onwards"<<endl;
+            }
+            else if((adjm[a-1][b-1]==0)){
+                adjm[a-1][b-1]=1;
+                cnt++;
+            }
+            else{
+                cout<<"Graph for these vertices already exixts";
+            }
+            cout<<"Do you want to enter more edge 1/0"<<endl;
+            cin>>flag;
+            if(cnt==((n*(n-1)/2))){
+                cout<<"You cannot create more edges now "<<endl;
+                break;
+            }
+        }
+    }
+    void  graph_undi(){
+         cout<<"Enter the no of verteces in graph "<<endl;
+        cin>>n;
+        adjm=new int*[n];
+        for(int i=0;i<n;i++){
+          adjm[i]=new int[n];
+        }
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                adjm[i][j]=0;
+            }
+        }
+        int cnt=0;
+        cout<<"Enter the edges in the vertices "<<endl;
+        bool flag=true;
+         cnt=0;
+        while(flag){
+           int a,b;
+           cin>>a>>b;
+           if(a<0 || a>n || b<0 || b>n){
+            cout<<"Enter the valid edges"<<endl;
+           }
+
+           else
+           if(a==0 || b==0){
+                cout<<"Graph numbers should starts with 1 onwards"<<endl;
+            }
+           else if(a==b){
+               cout<<"in a simple undirected graph self edges are not allowed "<<endl;
+                cout<<"Do you want to enter more edges 1/0"<<endl;
+                cin>>flag;
+           }
+    
+           else{
+               if(adjm[a-1][b-1]==0 && adjm[b-1][a-1]==0){
+               adjm[a-1][b-1]=1;
+               adjm[b-1][a-1]=1;
+               cnt++;
+               }
+               else{
+                cout<<"Edge for these vertices already exists"<<endl;
+               }
+               cout<<"Do you want to enter more edges 1/0"<<endl;
+               cin>>flag;
+               
+           }
+
+           if(cnt==(n*(n-1))/2){
+               cout<<"You cannot add more edges now "<<endl;
+               break;
+           }
+
+        }
+
+    }
+
+    
+    int** multiply(int** adjm,int length){
+        int **ans;
+        ans=new int*[n];
+        for(int i=0;i<n;i++){
+            ans[i]=new int[n];
+        }
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                ans[i][j]=0;
+            }
+        }
+        // base case
+        if(length==2){
+           for(int i=0;i<n;i++){
+                for(int j=0;j<n;j++){
+                    for(int k=0;k<n;k++){
+                        ans[i][j]+=adjm[i][k]*adjm[k][j];
+                    }
+                }
+            }
+            return ans;
+        }
+        
+        for(int i=0;i<n;i++){
+                for(int j=0;j<n;j++){
+                    for(int k=0;k<n;k++){
+                        ans[i][j]+=adjm[i][k]*multiply(adjm,length-1)[k][j];
+                    }
+                }
+        }
+        
+        return ans;
+        
+    }
+
+
+    int paths(){
+        cout<<"Enter the required vertices "<<endl;
+        int a,b;
+        cin>>a>>b;
+        if(a<0 || a>n || b<0 || b>n){
+            cout<<"Enter the valid edges"<<endl;
+            return -1;
+        }
+
+     
+        int length;
+        cout<<"Enter the length of path required : ";
+        cin>>length;
+       
+        int**ans;
+
+       ans= multiply(adjm,length);
+        
+        
+        
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                 cout<<ans[i][j]<<" ";
+            }
+            cout<<endl;
+        }
+        cout<<"Numer of paths from vertex "<<a<<" and "<<b<<" with length "<<length<<" is : ";
+
+
+        return ans[a-1][b-1];
+    }
+    void print(){
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                 cout<<adjm[i][j]<<" ";
+            }
+            cout<<endl;
+        }
+        
+    }
+};
+int main(){
+    graph g;
+
+    bool flag=true;
+    while(flag){
+        cout<<"Enter graph is Directed or Undirected "<<endl;
+        cout<<"1. For Directed   2. For Undirected"<<endl;
+        int n;
+        cin>>n;
+        if(n==1){
+           bool flag2=true;
+            g.graph_direc();
+           while(flag2){
+              
+                cout<<"1. To print adjacency matrix"<<endl;
+                cout<<"2. To print the number of paths from one to another vertex";
+                int c;
+                cin>>c;
+                if(c==1){
+                        g.print();
+                }
+                else if(c==2){
+                  cout<<g.paths()<<endl;
+
+                 }
+                cout<<"Do you want to work more upon same graph enter 1/0"<<endl;
+               cin>>flag2;
+           }
+           
+        }
+        else if(n==2){
+            bool flag2=true;
+             g.graph_undi();
+           while(flag2){
+              
+                cout<<"1. To print adjacency matrix"<<endl;
+                cout<<"2. To print the number of paths from one to another vertex";
+                int c;
+                cin>>c;
+                if(c==1){
+                        g.print();
+                }
+                else if(c==2){
+                  cout<<g.paths();
+                 }
+                cout<<"Do you want to work more upon same graph enter 1/0"<<endl;
+               cin>>flag2;
+           }
+        }
+        else{
+            cout<<"Enter a correct choice "<<endl;
+            
+        }
+        cout<<"Do you want to continue 1/0"<<endl;
+        cin>>flag;
+
+    }
+   
+}

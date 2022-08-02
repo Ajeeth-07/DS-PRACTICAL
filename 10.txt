@@ -1,0 +1,109 @@
+#include <iostream>
+using namespace std;
+class permutation
+{
+    int n;
+
+    int *arr; // array to store the digits of the number
+    int *B;
+
+public:
+    permutation()
+    {
+        cout << "Enter the length of the number " << endl;
+        cin >> n;
+        arr = new int[n];
+        B = new int[n];
+        cout << "Enter the digits of number" << endl;
+        for (int i = 0; i < n; i++)
+        {
+            cin >> arr[i];
+        }
+    }
+
+private:
+    void nrep(int A[], int n, int b)
+    { // function for without repetition permutation of number
+        // base case
+        if (b == n - 1)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                cout << A[j];
+            }
+            cout << endl;
+            return;
+        }
+        for (int i = b; i < n; i++)
+        {
+            swap(A[b], A[i]);
+            nrep(A, n, b + 1); // recursive function call
+            swap(A[b], A[i]);  // backtracked for the other possibilities
+        }
+    }
+
+    void withrep(int A[], int B[], int n, int b)
+    { // function for with repetition permutation of the number
+        // base case
+        if (b == n)
+        { // when the duplicate array is filled then printing it’s elements
+            for (int j = 0; j < n; j++)
+            {
+                cout << B[j];
+            }
+            cout << endl;
+            return;
+        }
+        for (int i = 0; i < n; i++)
+        {
+            B[b] = A[i];
+            withrep(A, B, n, b + 1); // recursive function call
+        }
+    }
+
+public:
+    void without_repetition()
+    {
+        nrep(arr, n, 0);
+    }
+    void withrepetition()
+    {
+
+        withrep(arr, B, n, 0);
+    }
+};
+int main()
+{
+
+    bool flag = true;
+    while (flag)
+    {
+        permutation a;
+        bool flag2 = true;
+        while (flag2)
+        {
+            cout << "Enter " << endl;
+            cout << "1. For printing the permutation of the number without Repetition " << endl;
+            cout << "2. For printing the permutation of number with Repetition" << endl;
+            int n;
+            cin >> n;
+
+            if (n == 1)
+            {
+                a.without_repetition();
+            }
+            else if (n == 2)
+            {
+                a.withrepetition();
+            }
+            else
+            {
+                cout << "Wrong Choice" << endl;
+            }
+            cout << "Do you want to conitnue on same number ? 1/0" << endl;
+            cin >> flag2;
+        }
+        cout << "Do you want to check for more numbers 1/0" << endl;
+        cin >> flag;
+    }
+}

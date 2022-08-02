@@ -1,0 +1,113 @@
+// to accept a undirected graph from user and check if it is a complete graph or not
+#include<iostream>
+using namespace std;
+
+class graph{
+    int n;     // here n denotes the no of verteces in the graph
+    int **adjm;
+    int cnt;
+
+    public:
+    graph(){
+        cout<<"Enter the no of vertices in the graph : ";
+        cin>>n;
+        adjm=new int*[n];
+        for(int i=0;i<n;i++){
+            adjm[i]=new int[n];
+        }
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                adjm[i][j]=0;
+            }
+        }
+        cout<<"Enter the edges in the vertices "<<endl;
+        bool flag=true;
+         cnt=0;
+        while(flag){
+           int a,b;
+           cin>>a>>b;
+           if(a<0 || a>n || b<0 || b>n){
+            cout<<"Enter the valid edges"<<endl;
+           }
+
+           else if(a==0 || b==0){
+                cout<<"Graph numbers should starts with 1 onwards"<<endl;
+            }
+           else if(a==b){
+               cout<<"in a simple undirected graph self edges are not allowed "<<endl;
+                cout<<"Do you want to enter more edges 1/0"<<endl;
+                cin>>flag;
+           }
+    
+           else{
+               if(adjm[a-1][b-1]==0 && adjm[b-1][a-1]==0){
+               adjm[a-1][b-1]=1;
+               adjm[b-1][a-1]=1;
+               cnt++;
+               }
+               else{
+                cout<<"Edge for these vertices already exists"<<endl;
+               }
+               cout<<"Do you want to enter more edges 1/0"<<endl;
+               cin>>flag;
+               
+           }
+
+           if(cnt==(n*(n-1))/2){
+               cout<<"You cannot add more edges now "<<endl;
+               break;
+           }
+
+        }
+
+    }
+    void print(){
+        cout<<"The adjacency matrix of the graph is "<<endl;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                cout<<adjm[i][j]<<" ";
+            }
+            cout<<endl;
+        }
+    }
+    bool complete(){
+       if(cnt==(n*(n-1))/2){
+           return true;
+       }
+       else{
+           return false;
+       }
+    }
+
+};
+int main(){
+
+    bool flag=true;
+    while(flag){
+        int n;
+         graph g;
+         g.print(); 
+        cout<<"Enter 1 to check whether graph is complete or not"<<endl;
+        cin>>n;
+
+        if(n==1){
+           
+            if(g.complete()){
+                cout<<"graph is complete graph"<<endl;
+            }
+            else{
+                cout<<"Graph is not complete"<<endl;
+            }
+
+        }else{
+            cout<<"Wrong choice "<<endl;
+        }
+        cout<<"Do you want to continue Enter 1/0"<<endl;
+        cin>>flag;
+    }
+
+
+
+
+    
+}

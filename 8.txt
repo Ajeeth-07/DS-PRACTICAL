@@ -1,0 +1,89 @@
+// program to implement bubble sort algo
+#include<iostream>
+using namespace std;
+
+class sort{
+    int n;
+    int *ar;
+    bool asds;
+    public:
+    sort(){
+        cout<<"Enter the size of array "<<endl;
+        cin>>n;
+        ar=new int[n];
+        cout<<"Enter the elements in the array "<<endl;
+        for(int i=0;i<n;i++){
+            cin>>ar[i];
+        }
+    }
+    void bubblesort(){
+        if(n==1){
+            cout<<"Already sorted"<<endl;
+            return;
+        }
+        for(int i=0;i<n-1;i++){
+            cout<<"In "<<i+1<<"th pass ";
+            int j;
+            bool flag=false;
+            
+            if(asds){
+               for( j=0;j<n-i-1;j++){
+                if(ar[j]>ar[j+1]){
+                    swap(ar[j],ar[j+1]);
+                    flag=true;
+                }
+            }
+            }
+            else{
+                  for( j=0;j<n-i-1;j++){
+                if(ar[j]<ar[j+1]){
+                    swap(ar[j],ar[j+1]);
+                    flag=true;
+                }
+            }
+            }
+
+            if(!flag){
+                cout<<"Array is sorted"<<endl;
+                break;
+            }
+            print();
+             cout<<"Number of comparison  : "<<j<<endl;
+             cout<<endl;
+        }
+    }
+    void ascen(bool c){
+        asds=c;
+    } 
+    void print(){
+        for(int i=0;i<n;i++){
+            cout<<ar[i]<<" ";
+        }
+        cout<<endl;
+    }
+};
+
+
+int main(){
+   bool flag=true;
+    while(flag){
+        cout<<"Enter details for the array"<<endl;
+        sort a;
+        cout<<"Enter 0. To sort the array in Ascending Order"<<endl;
+        cout<<"Enter 1. To sort the array in Descending Order"<<endl;
+        int ans;
+        cin>>ans;
+        if(ans == 0){
+            a.ascen(true);
+        }
+        else if(ans==1){
+            a.ascen(false);
+        }
+         a.bubblesort();
+        
+        cout<<"Do you want to continue ? enter 0/1"<<endl;
+        cin>>flag;
+
+    }
+  
+}

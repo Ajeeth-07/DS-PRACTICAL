@@ -1,0 +1,106 @@
+// to accept directed graph and calcualte in and out degree for each vertex
+#include<iostream>
+using namespace std;
+
+class graph{
+    int n;
+    int **adjm;
+
+    public:
+    graph(){
+        cout<<"Enter the no of verteces in graph "<<endl;
+        cin>>n;
+        adjm=new int*[n];
+        for(int i=0;i<n;i++){
+          adjm[i]=new int[n];
+        }
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                adjm[i][j]=0;
+            }
+        }
+        cout<<"Enter the edges for graph"<<endl;
+        bool flag=true;
+        int cnt=0;
+        while(flag){
+            int a,b;
+            cin>>a>>b;
+            if(a<0 || a>n || b<0 || b>n){
+            cout<<"Enter the valid edges"<<endl;
+           }
+
+           else
+            if(a==0 || b==0){
+                cout<<"Graph numbers should starts with 1 onwards"<<endl;
+            }
+            else if(adjm[a-1][b-1]==0){
+                adjm[a-1][b-1]=1;
+                cnt++;
+            }
+            else{
+                cout<<"edge for these vertices already exists"<<endl;
+            }
+            cout<<"Do you want to enter more edge 1/0"<<endl;
+            cin>>flag;
+            if(cnt==(n*n)){
+                cout<<"You cannot create more edges now "<<endl;
+                break;
+            }
+        }
+    }
+    void print(){
+        cout<<"The adjacency matrix of graph is "<<endl;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                cout<<adjm[i][j]<<" ";
+            }
+            cout<<endl;
+        }
+    }
+    void degree(){
+        cout<<"vertex    in-degree      out-degree"<<endl;
+        for(int i=0;i<n;i++){
+            cout<<i+1<<" "; 
+            // in-degree
+            int insum=0;
+            for(int j=0;j<n;j++){
+                insum+=adjm[j][i];
+            }
+            cout<<"          "<<insum<<"       ";
+
+            int outsum=0;
+            for(int j=0;j<n;j++){
+                outsum+=adjm[i][j];
+            }
+            cout<<"       "<<outsum<<"        ";
+
+
+            cout<<endl;
+        }
+
+    }
+};
+int main(){
+   
+    bool flag=true;
+    while(flag){
+        graph g;
+        g.print();
+        cout<<"Enter 1 to find the degree of the graph"<<endl;
+        int n;
+        cin>>n;
+        if(n==1){
+            g.degree();
+        }
+        else{
+            cout<<"Wrong choice"<<endl;
+        }
+        cout<<"Do you want to continue Enter 1/0"<<endl;
+        cin>>flag;
+    }
+
+    // graph g;
+    // g.print();
+    // cout<<endl;
+    // g.degree( );
+}

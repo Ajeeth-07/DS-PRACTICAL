@@ -1,0 +1,104 @@
+// finding the nth value in all the three recurrence reln with their base cases
+#include <iostream>
+using namespace std;
+
+class recurrence
+{
+    int n;
+
+public:
+    recurrence()
+    {
+        cout << "Enter the value of n to find T(n)" << endl;
+        int a;
+        cin >> a;
+        if (a < 0)
+        {
+            cout << "Enter valid value for n it should be 0 to n" << endl;
+            cin >> a;
+        }
+        n = a;
+    }
+    int t1(int n)
+    {
+        // base case
+        if (n == 0)
+        {
+            return 1;
+        }
+        int ans = t1(n - 1) + n; // recursive function call
+        cout << "T[" << n << "] = " << ans << endl;
+        return ans;
+    }
+    int t2(int n)
+    {
+        // base case
+        if (n == 0)
+        {
+            return 1;
+        }
+
+        int ans = t2(n - 1) + n * n; // recursive function call
+        cout << "T[" << n << "] = " << ans << endl;
+        return ans;
+    }
+    int t3(int n)
+    {
+        // base case
+        if (n == 1)
+        {
+            return 1;
+        }
+        int ans = 2 * t3(n / 2) + n; // recursive function call
+        cout << "T[" << n << "] = " << ans << endl;
+        return ans;
+    }
+
+    void rec1()
+    { // calling the function from here to preserve the private nature of the variables of class
+        int ans = t1(n);
+    }
+    void rec2()
+    {
+        int ans = t2(n);
+    }
+    void rec3()
+    {
+        int ans = t3(n);
+    }
+};
+int main()
+{
+    bool flag = true;
+
+    while (flag)
+    {
+
+        int cnt;
+        cout << "1. For T(n)=T(n-1)+n" << endl;
+        cout << "2. For T(n)=T(n-1)+n^2" << endl;
+        cout << "3. For T(n)=2*T(n/2)+n" << endl;
+        cin >> cnt;
+        if (cnt == 1)
+        {
+            recurrence a;
+            a.rec1();
+        }
+        else if (cnt == 2)
+        {
+            recurrence a;
+            a.rec2();
+        }
+        else if (cnt == 3)
+        {
+            recurrence a;
+            a.rec3();
+        }
+        else
+        {
+            cout << "Wrong input" << endl;
+        }
+        cout << "Do you want to continue " << endl;
+        cin >> flag;
+    }
+}

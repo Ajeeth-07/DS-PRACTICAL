@@ -1,0 +1,40 @@
+//  finding the number of shiftes required to transfer n rings from source to the destination pole
+#include <iostream>
+using namespace std;
+class toh
+{
+    int n;
+public:
+    toh()
+    {
+        cout << "Enter the no of rings" << endl;
+        cin >> n;
+    }
+private:
+    int solve(int n)
+    {
+        if (n == 1)
+        { // base case for recursive function.
+            return 1;
+        }
+        return 2 * solve(n - 1) + 1; // recursive function call
+    }
+public:
+    int tower()
+    { // to preserve the private nature of variables of the class calling from other function
+
+        return solve(n);
+    }
+};
+int main()
+{
+    bool flag = true;
+    while (flag)
+    {
+        toh a;
+        int ans = a.tower();
+        cout << "The no of shiftes are " << ans << endl;
+        cout << "Do you want to continue 1/0" << endl;
+        cin >> flag;
+    }
+}

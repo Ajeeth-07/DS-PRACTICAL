@@ -1,0 +1,70 @@
+// program to find the nCr and nPr using recurion
+#include <iostream>
+using namespace std;
+class count
+{
+    int n;
+    int r;
+
+public:
+    count(int n, int r)
+    { // parametrized constructor
+        this->n = n;
+        this->r = r;
+    }
+
+private:
+    int npr(int n, int r)
+    { // function to find p(n,r)
+        // base case
+        if (r > n)
+        {
+            return 0;
+        }
+        else if (r == 0)
+        {
+            return 1;
+        }
+
+        else
+        {
+            return n * npr(n - 1, r - 1); // recursive function call
+        }
+    }
+    int ncr(int n, int r)
+    { // function to find c(n,r)
+        // base case
+        if (r > n)
+        {
+            return 0;
+        }
+        else if (n == 0 || r == 0 || n == r)
+        {
+            return 1;
+        }
+        else
+        {
+            return (ncr(n - 1, r - 1) + ncr(n - 1, r)); // recursive function call
+        }
+    }
+
+public:
+    int nprfunc()
+    {
+        return npr(n, r);
+    }
+    int ncrfunc()
+    {
+        return ncr(n, r);
+    }
+};
+int main()
+{
+    cout << "Enter value for n and r : ";
+    int n, r;
+    cin >> n >> r;
+
+    count c(n, r);
+    cout << "nCr of the c is " << c.ncrfunc() << endl;
+    cout << "nPr of the c is " << c.nprfunc() << endl;
+}

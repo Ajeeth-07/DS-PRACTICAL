@@ -1,0 +1,223 @@
+#include <iostream>
+using namespace std;
+// Relation class using matrix notation
+class set
+{ // set class to be used in relation class
+public:
+    int *arr;
+    int n;
+
+public:
+    set()
+    {
+    }
+    void cset()
+    { // setting up the set class taking user input
+
+        cout << "Enter the size of the set : ";
+
+        cin >> n;
+
+        arr = new int[n];
+        cout << "Enter elements of set : ";
+        for (int i = 0; i < n; i++)
+        {
+            cin >> arr[i];
+        }
+    }
+    int find(int a)
+    { // function to find the element
+        for (int i = 0; i < n; i++)
+        {
+            if (arr[i] == a)
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+};
+class relation
+{
+    int **arr; // 2-D array to store the pairs of relation
+    int n;
+
+public:
+    void input(set s)
+    { // function to take input for relation
+        cout << "Enter the size of the matrix : ";
+        cin >> n;
+        arr = new int *[n];
+        for (int i = 0; i < n; i++)
+        {
+            arr[i] = new int[n];
+        }
+        for (int i = 0; i < n; i++)
+        {
+
+            for (int j = 0; j < n; j++)
+            {
+                arr[i][j] = 0;
+            }
+        }
+        bool flag = true;
+        while (flag)
+        {
+            cout << "Enter the ordered pair : " << endl;
+            int a, b;
+            int p, q;
+            cin >> a >> b;
+            p = s.find(a);
+            q = s.find(b);
+            if (p != -1 && q != -1)
+                arr[p][q] = 1;
+            cout << "To enter more ordered pair enter 0/1 : " << endl;
+            cin >> flag;
+            if (!flag)
+            {
+                break;
+            }
+        }
+    }
+    void print()
+    {
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                cout << arr[i][j] << " ";
+            }
+            cout << endl;
+        }
+    }
+
+    bool reflexive()
+    {
+        bool flag = true;
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                if (i == j)
+                {
+                    if (arr[i][j] == 0)
+                    {
+                        flag = false;
+                    }
+                }
+            }
+        }
+        return flag;
+    }
+    bool symmetric()
+    {
+        bool flag = true;
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                if (arr[i][j] != arr[j][i])
+                {
+                    flag = false;
+                    return flag;
+                }
+                else
+                {
+                    flag = true;
+                }
+            }
+        }
+        return flag;
+    }
+    bool antisymmetric()
+    {
+        bool flag = true;
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                if ((arr[i][j] == 1 && arr[j][i] == 1) && i != j)
+                {
+                    flag = false;
+                    return flag;
+                }
+                else
+                {
+                    flag = true;
+                }
+            }
+        }
+        return flag;
+    }
+    bool transitive()
+    {
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                int check1 = arr[i][j];
+                bool flag2 = true;
+                for (int k = 0; k < n; k++)
+                {
+                    int check2 = arr[j][k];
+
+                    if (check1 == 1 && check2 == 1 && arr[i][k] != 1)
+                    {
+                        flag2 = false;
+                        return flag2;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+};
+int main()
+{
+    set s;
+    s.cset();
+    relation r;
+    r.input(s);
+    bool flag = true;
+    while (flag)
+    {
+        cout << "Enter your choice : " << endl;
+        int a;
+        cout << "1. To check whether a relation is equivalence or not" << endl;
+        cout << "2. To check whether the relation is Partial order or not" << endl;
+        cout << "3. If no one of them is true" << endl;
+        cin >> a;
+        switch (a)
+        {
+        case 1:
+            if (r.symmetric() && r.reflexive() && r.transitive())
+            {
+                cout << "The given relation is Equivalence relation " << endl; // realation is eqivalence if it is all
+            }                                                                  // symmetric, reflexive and transitive otherwise not
+            else
+            {
+                cout << "Given relation is not equivalence relation " << endl;
+            }
+
+            break;
+        case 2: // checking for partial order relation
+            if (r.reflexive() && r.antisymmetric() && r.transitive())
+            {
+                cout << "The given relation is Partial order " << endl;
+            }
+            else
+            {
+                cout << "The given relation is not partial order " << endl;
+            }
+            break;
+
+        case 3: // otherwise the relation is neither equivalence nor partial order
+            if (!(r.reflexive() && r.symmetric() && r.antisymmetric() && r.transitive()))
+            {
+                cout << "Given relation is neither equivalent nor partial order" << endl;
+            }
+        }
+        cout << "Do you want to continue : enter 0/1 " << endl;
+        cin >> flag;
+    }
+}

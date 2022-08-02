@@ -1,0 +1,199 @@
+// program that accepts the truth values of variables x and y and print the truth table of the following logical operations
+
+#include <iostream>
+    using namespace std;
+class logic
+{
+public:
+    bool a;
+    bool b;
+
+    logic()
+    {
+        char x, y;
+        cout << "Enter x and y true - T and false - F: " << endl;
+        cin >> x;
+        cin >> y;
+        if (x == 'T')
+        {
+                a = true;
+        }
+        else
+        {
+            a = false;
+        }
+        if (y == 'T')
+        {
+            b = true;
+        }
+        else
+        {
+            b = false;
+        }
+    }
+    bool conjuction()
+    {
+        if (a && b)
+        {
+            return true;
+        }
+        else
+        {
+
+            return false;
+        }
+    }
+    bool disjunction()
+    {
+        if (!a && !b)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+    bool excusiveor()
+    {
+        if (a == b)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+    bool condition()
+    {
+        if (a && !b)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+    bool biconditional()
+    {
+        if (a == b)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    bool exclusivenor()
+    {
+        return biconditional();
+    }
+    void negation()
+    {
+        if (a)
+        {
+            cout << "Negation of T is : F" << endl;
+        }
+        else
+        {
+            cout << "Negation of F is : T" << endl;
+        }
+        if (a)
+        {
+            cout << "Negation of T is : F" << endl;
+        }
+        else
+        {
+            cout << "Negation of F is : T" << endl;
+        }
+    }
+    bool nand()
+    {
+        return !conjuction();
+    }
+    bool nor()
+    {
+        return !disjunction();
+    }
+};
+
+int main()
+{
+
+    bool flag = true;
+    while (flag)
+    {
+        logic a;
+        cout << "Enter the number of which truth table is required " << endl;
+        cout << "1. Conjuction" << endl;
+        cout << "2. Disjunction " << endl;
+        cout << "3. Exclusive OR" << endl;
+        cout << "4. conditional" << endl;
+        cout << "5. Bi-conditional" << endl;
+        cout << "6. Exclusive NOR" << endl;
+        cout << "7. Negation " << endl;
+        cout << "8. NAND" << endl;
+        cout << "9. NOR" << endl;
+        int i;
+        cin >> i;
+        bool ans;
+        bool p = false;
+        switch (i)
+        {
+        case 1:
+            ans = a.conjuction();
+            cout << "Conjuction is : ";
+            break;
+        case 2:
+            ans = a.disjunction();
+            cout << "Conjuction is : ";
+            break;
+
+        case 3:
+            ans = a.excusiveor();
+            cout << "Exclusive OR is : ";
+            break;
+        case 4:
+            ans = a.condition();
+            cout << "Conditional is : ";
+            break;
+        case 5:
+            ans = a.biconditional();
+            cout << "Bi-Conditional is : ";
+            break;
+        case 6:
+            ans = a.exclusivenor();
+            cout << "EXclusive-NOR is : ";
+            break;
+        case 7:
+            a.negation();
+            p = true;
+            break;
+        case 8:
+            ans = a.nand();
+            cout << "NAND is : ";
+            break;
+
+        case 9:
+            ans = a.nor();
+            cout << "NOR is : ";
+            break;
+        }
+        if (!p)
+        {
+            if (ans)
+            {
+                cout << "T" << endl;
+            }
+            else
+            {
+                cout << "F" << endl;
+            }
+        }
+        cout << "Do you want to continue : 1/0 " << endl;
+        cin >> flag;
+    }
+}

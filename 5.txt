@@ -1,0 +1,36 @@
+// to print the fibonaaci series upto n using recursion
+
+#include <iostream>
+using namespace std;
+class A
+{
+    int cnt;
+public:
+    A()
+    {
+        cout << "Enter the no of terms in fibo series : " << endl; // limit of series
+        cin >> cnt;
+    }
+    void fibo(int a, int b, int sum)
+    { // recursive function for series
+        // base case for termination of function
+        if (cnt == 0)
+        {
+            return;
+        }
+
+        cout << sum << " "; // printing the nth fibo number
+        a = b;
+        b = sum;
+        sum = a + b;
+        cnt--;
+        fibo(a, b, sum); // Recursive Function Call
+        
+    }
+};
+int main()
+{
+
+    A f;
+    f.fibo(0, 1, 0);
+}
