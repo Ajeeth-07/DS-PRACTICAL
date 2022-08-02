@@ -1,0 +1,244 @@
+#include <iostream>
+using namespace std;
+// Relation class using matrix notation
+class set
+{ // set classed created so as to be used in relation class
+public:
+    int *arr;
+    int n;
+
+public:
+    set()
+    {
+    }
+    void cset()
+    {
+
+        cout << "Enter the size of the set : ";
+        cin >> n;
+
+        arr = new int[n];
+        cout << "Enter elements of set : ";
+        for (int i = 0; i < n; i++)
+        {
+            cin >> arr[i];
+        }
+    }
+    int find(int a)
+    { // function to find the position of any number in set
+        for (int i = 0; i < n; i++)
+        {
+            if (arr[i] == a)
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+};
+class relation
+{
+    int **arr; // 2-D array created to represent the relation
+    int n;
+
+public:
+    void input(set s)
+    {
+        cout << "Enter the size of the matrix : ";
+        cin >> n;
+        arr = new int *[n];
+        for (int i = 0; i < n; i++)
+        {
+            arr[i] = new int[n];
+        }
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                arr[i][j] = 0;
+            }
+        }
+        bool flag = true;
+        while (flag)
+        { // taking ordered pair from user
+            cout << "Enter the ordered pair : " << endl;
+            int a, b;
+            int p, q;
+            cin >> a >> b;
+            p = s.find(a);
+            q = s.find(b);
+            if (p != -1 && q != -1)
+                arr[p][q] = 1;
+            cout << "To enter more ordered pair enter 0/1 : " << endl;
+            cin >> flag;
+            if (!flag)
+            {
+                break;
+            }
+        }
+    }
+    void print()
+    { // function to print the ordered pairs of the relation
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                cout << arr[i][j] << " ";
+            }
+            cout << endl;
+        }
+    }
+    bool reflexive()
+    { // function to check whether the relation is reflexive
+        bool flag = true;
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                if (i == j)
+                {
+                    if (arr[i][j] == 0)
+                    {
+                        flag = false;
+                    }
+                }
+            }
+        }
+        return flag;
+    }
+    bool symmetric()
+    { // function to check for symmetricity of the relation
+        bool flag = true;
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+
+                if (arr[i][j] != arr[j][i])
+                {
+                    flag = false;
+                    return flag;
+                }
+                else
+                {
+                    flag = true;
+                }
+            }
+        }
+        return flag;
+    }
+    bool antisymmetric()
+    { // function to check for anti-symmetric
+        bool flag = true;
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                if ((arr[i][j] == 1 && arr[j][i] == 1) && i != j)
+                {
+                    flag = false;
+                    return flag;
+                }
+                else
+                {
+                    flag = true;
+                }
+            }
+        }
+        return flag;
+    }
+    bool transitive()
+    { // function to check whether the relation is transitive
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+
+                int check1 = arr[i][j];
+                bool flag2 = true;
+                for (int k = 0; k < n; k++)
+                {
+                    int check2 = arr[j][k];
+
+                    if (check1 == 1 && check2 == 1 && arr[i][k] != 1)
+                    {
+                        flag2 = false;
+                        return flag2;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+};
+// taking the ordered pair
+int main()
+{
+    set s;
+    s.cset();
+    relation a;
+    a.input(s);
+    a.print();
+
+    bool flag = true;
+    while (flag)
+    { // menu drive main function to take input from user
+        cout << "Enter your choice : " << endl;
+        cout << "1. To check Reflexive " << endl;
+        cout << "2. To check Symmmetric " << endl;
+        cout << "3. To check Anti-Symmmetric" << endl;
+        cout << "4. To check Transitive " << endl;
+
+        int i;
+        cin >> i;
+
+        switch (i)
+        {
+        case 1:
+
+            if (a.reflexive())
+            {
+                cout << "The realtion is Reflexive" << endl;
+            }
+            else
+            {
+                cout << "Given relation is not Reflexive" << endl;
+            }
+
+            break;
+        case 2:
+            if (a.symmetric())
+            {
+                cout << "The given relation is Symmetric " << endl;
+            }
+            else
+            {
+
+                cout << "Given relation is not symmetric" << endl;
+            }
+            break;
+        case 3:
+            if (a.antisymmetric())
+            {
+                cout << "The given relation is Anti-Symmetric " << endl;
+            }
+            else
+            {
+                cout << "Given relation is not Anti-symmetric" << endl;
+            }
+            break;
+        case 4:
+            if (a.transitive())
+            {
+                cout << "The given relation is transitive " << endl;
+            }
+            else
+            {
+                cout << "Given relation is not not transitive" << endl;
+            }
+            break;
+        }
+        cout << "Do you want to continue : 0/1 " << endl;
+        cin >> flag;
+    }
+}
