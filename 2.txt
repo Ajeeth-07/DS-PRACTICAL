@@ -1,0 +1,346 @@
+#include <iostream>
+#include <cmath>
+#include <climits>
+#include <map>
+using namespace std;
+class set
+{
+
+    int *arr;
+    int n;
+
+public:
+    set()
+    {
+    }
+    void cset()
+    { // function to setup set
+
+        cout << "Enter the size of the array : ";
+        cin >> n;
+
+        arr = new int[n];
+        cout << "Enter elements of array : ";
+        for (int i = 0; i < n; i++)
+        {
+            cin >> arr[i];
+        }
+    }
+    // function to check whether a given input set is subset of this set or not by searching the presence of elements of one in another
+    bool subset(set &b)
+    {
+
+        for (int i = 0; i < b.n; i++)
+        {
+            bool flag = false;
+            for (int j = 0; j < n; j++)
+            {
+                if (b.arr[i] == arr[j])
+                {
+                    flag = true;
+                    break;
+                }
+            }
+            if (flag == false)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    // finding the intersection of two sets i.e. common elements
+    void inter(set &b)
+    {
+        cout << "Intersection of the sets is : " << endl;
+        cout << "{ ";
+        for (int i = 0; i < n; i++)
+        {
+
+            for (int j = 0; j < b.n; j++)
+            {
+                if (arr[i] == b.arr[j])
+                {
+                    cout << arr[i] << " , ";
+                    break;
+                }
+            }
+        }
+
+        cout << "}" << endl;
+    }
+    // function to find symmetric difference
+    void symm(set &b)
+    {
+        cout << "Symmetric difference between the sets is : ";
+        cout << "{";
+        for (int i = 0; i < n; i++)
+        {
+            bool flag = false;
+            for (int j = 0; j < b.n; j++)
+            {
+                if (arr[i] == b.arr[j])
+                {
+                    flag = true;
+                    break;
+                }
+            }
+            if (flag == false)
+            {
+                cout << arr[i] << " , ";
+            }
+        }
+        for (int i = 0; i < b.n; i++)
+        {
+            bool flag = false;
+            for (int j = 0; j < n; j++)
+            {
+
+                if (b.arr[i] == arr[j])
+                {
+                    flag = true;
+                    break;
+                }
+            }
+            if (flag == false)
+            {
+                cout << b.arr[i] << " , ";
+            }
+        }
+        cout << "}" << endl;
+    }
+    // union of set by combining the elements of two
+    void un(set &b)
+    {
+        cout << "Union of the sets is : " << endl;
+        map<int, bool> check;
+        cout << "{";
+        for (int i = 0; i < n; i++)
+        {
+            cout << arr[i] << " , ";
+            check[arr[i]] = true;
+        }
+        for (int j = 0; j < b.n; j++)
+        {
+            if (!check[b.arr[j]])
+            {
+                cout << b.arr[j] << " , ";
+            }
+        }
+        cout << "}" << endl;
+    }
+    // function finding the complement by removing element form the union set
+    void complement(set &b)
+    {
+        cout << "{";
+        for (int i = 0; i < n; i++)
+        {
+            bool flag = false;
+            for (int j = 0; j < b.n; j++)
+            {
+                if (arr[i] == b.arr[j])
+                {
+                    flag = true;
+                    break;
+                }
+                else
+                {
+                    flag = false;
+                }
+            }
+            if (flag == false)
+            {
+                cout << arr[i] << " , ";
+            }
+        }
+        cout << "}" << endl;
+    }
+    void complement()
+    {
+        cout << "Enter the size of the universal set : " << endl;
+        int un;
+        cin >> un;
+        int *univ = new int[un];
+
+        cout << "Enter the elements in universal set : " << endl;
+        for (int i = 0; i < un; i++)
+        {
+            cin >> univ[i];
+        }
+        cout << "{";
+        for (int i = 0; i < un; i++)
+        {
+            bool flag = false;
+            for (int j = 0; j < n; j++)
+            {
+                if (univ[i] == arr[j])
+                {
+                    flag = true;
+                    break;
+                }
+                else
+                {
+                    flag = false;
+                }
+            }
+            if (flag == false)
+            {
+                cout << univ[i] << " , ";
+            }
+        }
+        cout << "}" << endl;
+    }
+    // function to find the cartesian product my making pair of the elements of one set with other
+    void cartesian(set &b)
+    {
+        cout << "Cartesian product of the two sets are : " << endl;
+        cout << "{";
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < b.n; j++)
+            {
+                cout << "(" << arr[i] << "," << b.arr[j] << ") , ";
+            }
+        }
+        cout << "}" << endl;
+    }
+};
+int main()
+{
+    set a, b;
+    cout << "Enter for set A : " << endl;
+    a.cset();
+    cout << "Enter for set B : " << endl;
+    b.cset();
+    bool flag = true;
+    while (flag)
+    {
+        cout << "Enter the set operations to be performed : " << endl;
+        cout << "1. Subset " << endl;
+        cout << "2. Union and intersection " << endl;
+        cout << "3. Complement" << endl;
+        cout << "4. Set Difference and Symmetric Difference " << endl;
+        cout << "5. Cartesian Product" << endl;
+        int i;
+        cin >> i;
+
+        switch (i)
+        {
+        case 1:
+
+            cout << "Do you want to check subset for A or B set : " << endl;
+            cout << "1. To check first set is subset of second or not" << endl;
+            cout << "2. For checking whether second set is subset of first set or not" << endl;
+            int n;
+            cin >> n;
+            if (n == 1)
+            {
+                if (b.subset(a))
+                {
+                    cout << "first set is subset of second set" << endl;
+                }
+                else
+                {
+                    cout << "first set is not subset of second set " << endl;
+                }
+                break;
+            }
+            else if (n == 2)
+            {
+                if (a.subset(b))
+                {
+                    cout << "Second set is subset of first set" << endl;
+                }
+                else
+                {
+                    cout << "Second set is not subset of first set " << endl;
+                }
+                break;
+            }
+            else
+            {
+                cout << "You entered wrong choice ...." << endl;
+                break;
+            }
+
+        case 2:
+            cout << "Union and intersection of the two input sets are as follows : " << endl;
+
+            a.un(b);
+            a.inter(b);
+            break;
+        case 3:
+            cout << "Do you want to check Complement for A or B set : " << endl;
+            cout << "1. To check complement of first set" << endl;
+            cout << "2. To check complement of second set" << endl;
+
+            cin >> n;
+            if (n == 1)
+            {
+                cout << "Complement of the first set is : " << endl;
+                a.complement();
+                break;
+            }
+            else if (n == 2)
+            {
+                cout << "Complement of the second set is : " << endl;
+                b.complement();
+                break;
+            }
+            else
+            {
+                cout << "you entered wrong choice..." << endl;
+                break;
+            }
+
+        case 4:
+            a.symm(b);
+            cout << "Do you want to find A-B or B-A :" << endl;
+            cout << "1. For A-B" << endl;
+            cout << "2. For B-A" << endl;
+
+            cin >> n;
+            if (n == 1)
+            {
+                cout << "Set difference is : " << endl;
+                a.complement(b);
+            }
+            else if (n == 2)
+            {
+                cout << "Set difference is : " << endl;
+                b.complement(a);
+            }
+            else
+            {
+                cout << "You entered wrong choice..." << endl;
+            }
+
+            break;
+        case 5:
+            cout << "Do you want to find cartesian product A X B or B X A : " << endl;
+            cout << "1. To find the cartesian product A X B" << endl;
+            cout << "2. To find the cartesian product B X A" << endl;
+
+            cin >> n;
+            if (n == 1)
+            {
+                a.cartesian(b);
+                break;
+            }
+            else if (n == 2)
+            {
+
+                b.cartesian(a);
+                break;
+            }
+            else
+            {
+                cout << "you entered wrong choice...." << endl;
+                break;
+            }
+        default:
+            break;
+        }
+        cout << "Do you want to continue : 0/1 " << endl;
+        cin >> flag;
+    }
+}
